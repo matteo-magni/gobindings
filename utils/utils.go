@@ -59,7 +59,7 @@ func ReadFiles(RootDir string, MaxDepth int) (map[string]string, error) {
 	return retmap, nil
 }
 
-func GetBinding(RootDir string, Type string) (map[string]map[string]string, error) {
+func GetBindings(RootDir string, Type string) (map[string]map[string]string, error) {
 	files, err := os.ReadDir(RootDir)
 	if err != nil {
 		return nil, err

@@ -14,7 +14,7 @@ func main() {
 	// }
 	// fmt.Printf("WALKDEPTH=%v\n", maxdepth)
 
-	binding, err := utils.GetBinding(rootdir, "redis")
+	binding, err := utils.GetBindings(rootdir, "redis")
 
 	// filesmap, err := utils.ReadFiles(rootdir, maxdepth)
 	if err != nil {
