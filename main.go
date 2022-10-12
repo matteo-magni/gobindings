@@ -21,12 +21,18 @@ func main() {
 		log.Panic(err)
 	}
 
-	for k, v := range binding {
-		fmt.Println()
-		fmt.Println("=============")
-		fmt.Printf("File: %s\n", k)
-		fmt.Println(string(v))
-		fmt.Println("=============")
-	}
+	// fmt.Println(binding)
+
+	fmt.Println(binding["redis"])
+	// for k, v := range binding {
+	// 	fmt.Printf("Binding found: %s\n", k)
+	// 	for k1,v1 := range v {
+	// 		fmt.Println()
+	// 		fmt.Println("=============")
+	// 		fmt.Printf("File: %s\n", k1)
+	// 		fmt.Println(string(v1))
+	// 		fmt.Println("=============")	
+	// 	}
+	// }
 
 }

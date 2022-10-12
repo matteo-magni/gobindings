@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"errors"
 	"fmt"
 	"io/fs"
 	"os"
@@ -27,7 +26,7 @@ func ReadFiles(RootDir string, MaxDepth int) (map[string]string, error) {
 		}
 
 		// make sure I don't dig deeper than maxdepth
-		relpath, err := filepath.Rel(RootDir, path)
+		relpath, _ := filepath.Rel(RootDir, path)
 		if MaxDepth > 0 && strings.Count(relpath, string(os.PathSeparator)) >= MaxDepth {
 			return nil
 		}
@@ -60,11 +59,13 @@ func ReadFiles(RootDir string, MaxDepth int) (map[string]string, error) {
 	return retmap, nil
 }
 
-func GetBinding(RootDir string, Type string) (map[string]string, error) {
+func GetBinding(RootDir string, Type string) (map[string]map[string]string, error) {
 	files, err := os.ReadDir(RootDir)
 	if err != nil {
 		return nil, err
 	}
+
+	retmap := make(map[string]map[string]string)
 	for _, f := range files {
 		if !f.IsDir() {
 			continue
@@ -82,9 +83,14 @@ func GetBinding(RootDir string, Type string) (map[string]string, error) {
 
 		if val, ok := b["type"]; ok {
 			if val == Type {
-				return b, nil
+				retmap[f.Name()] = b
+				// return b, nil
 			}
 		}
 	}
-	return nil, errors.New(fmt.Sprintf("No bindings of type '%s' have been found", Type))
+	if len(retmap) > 0 {
+		return retmap, nil
+	} else {
+		return nil, fmt.Errorf("No bindings of type '%s' have been found", Type)
+	}
 }
