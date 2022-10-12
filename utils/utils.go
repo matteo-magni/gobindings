@@ -59,7 +59,11 @@ func ReadFiles(RootDir string, MaxDepth int) (map[string]string, error) {
 	return retmap, nil
 }
 
-func GetBindings(RootDir string, Type string) (map[string]map[string]string, error) {
+func GetAllBindings(RootDir string) (map[string]map[string]string, error) {
+	return GetBindingsByType(RootDir, "")
+}
+
+func GetBindingsByType(RootDir string, Type string) (map[string]map[string]string, error) {
 	files, err := os.ReadDir(RootDir)
 	if err != nil {
 		return nil, err
@@ -82,15 +86,14 @@ func GetBindings(RootDir string, Type string) (map[string]map[string]string, err
 		}
 
 		if val, ok := b["type"]; ok {
-			if val == Type {
+			if Type == val || Type == "" {
 				retmap[f.Name()] = b
-				// return b, nil
 			}
 		}
 	}
 	if len(retmap) > 0 {
 		return retmap, nil
 	} else {
-		return nil, fmt.Errorf("No bindings of type '%s' have been found", Type)
+		return nil, fmt.Errorf("no bindings of type '%s' have been found", Type)
 	}
 }

@@ -8,22 +8,23 @@ import (
 
 func main() {
 	rootdir := utils.Getenv("ROOTDIR", ".")
-	// maxdepth, err := strconv.Atoi(utils.Getenv("WALKDEPTH", "-1"))
-	// if err != nil {
-	// 	maxdepth = -1
-	// }
-	// fmt.Printf("WALKDEPTH=%v\n", maxdepth)
 
-	binding, err := utils.GetBindings(rootdir, "redis")
-
-	// filesmap, err := utils.ReadFiles(rootdir, maxdepth)
+	bindings, err := utils.GetBindingsByType(rootdir, "redis")
 	if err != nil {
 		log.Panic(err)
 	}
 
-	// fmt.Println(binding)
+	allbindings, err := utils.GetAllBindings(rootdir)
+	if err != nil {
+		log.Panic(err)
+	}
 
-	fmt.Println(binding["redis"])
+	fmt.Println(bindings)
+
+	fmt.Println(bindings["redis"])
+
+	fmt.Println(allbindings)
+
 	// for k, v := range binding {
 	// 	fmt.Printf("Binding found: %s\n", k)
 	// 	for k1,v1 := range v {
